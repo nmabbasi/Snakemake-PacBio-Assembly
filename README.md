@@ -77,7 +77,7 @@ The pipelines rely on the following bioinformatics tools being available in your
 
 ## 📬 Contact & Support
 
-**Nasir Mahmood Abbasi, PhD**  
+**Nasir Mahmood Abbasi**  
 *Computational Biologist & Single-Cell Transcriptomics Expert*  
 🌐 Portfolio: [nmabbasi.github.io](https://nmabbasi.github.io)  
 📚 Educational Portal: [The Omics Hub](https://theomicshub.com)  
