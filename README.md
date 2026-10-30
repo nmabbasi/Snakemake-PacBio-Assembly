@@ -83,7 +83,7 @@ conda activate pacbio_asm
 ## Author & Contact
 
 **Nasir Mahmood Abbasi, PhD**  
-Computational Biologist • Open to New Opportunities  
+Computational Biologist | Open to New Opportunities  
 - Portfolio: [nmabbasi.github.io](https://nmabbasi.github.io)  
 - HPC Guide: [nmabbasi.github.io/HPC](https://nmabbasi.github.io/HPC/)  
 - Email: [nmabbasi@gmail.com](mailto:nmabbasi@gmail.com)
