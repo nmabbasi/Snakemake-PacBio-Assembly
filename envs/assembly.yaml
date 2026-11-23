@@ -1,0 +1,12 @@
+name: pacbio-assembly
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - fastqc=0.12.1
+  - hifiasm=0.19.8
+  - minimap2=2.28
+  - samtools=1.20
+  - busco=5.7.1
+  - blast=2.16.0
+  - blobtoolkit=4.3.9
