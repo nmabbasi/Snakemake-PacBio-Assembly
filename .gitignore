@@ -1,0 +1,8 @@
+results/
+.snakemake/
+logs/
+*.log
+*.fastq.gz
+*.bam
+*.bai
+__pycache__/

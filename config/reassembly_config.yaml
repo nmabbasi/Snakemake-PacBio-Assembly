@@ -1,0 +1,16 @@
+outdir: "results/reassembly"
+reference: "data/reference.fasta"
+trusted_contigs: "data/trusted_contigs.fasta"
+
+samples:
+  sample1:
+    r1: "data/sample1_R1.fastq.gz"
+    r2: "data/sample1_R2.fastq.gz"
+    read_list: "data/sample1_read_ids.txt"
+  sample2:
+    r1: "data/sample2_R1.fastq.gz"
+    r2: "data/sample2_R2.fastq.gz"
+    read_list: "data/sample2_read_ids.txt"
+
+spades:
+  memory_gb: 64

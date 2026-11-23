@@ -1,0 +1,8 @@
+name: targeted-reassembly
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bwa=0.7.18
+  - samtools=1.20
+  - spades=4.0.0

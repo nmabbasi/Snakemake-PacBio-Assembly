@@ -1,0 +1,19 @@
+outdir: "results/assembly"
+
+samples:
+  sample1: "data/sample1_hifi.fastq.gz"
+
+hifiasm:
+  purge_level: 2
+
+busco:
+  lineage: "insecta_odb10"
+  downloads_path: "databases/busco_downloads"
+
+blast:
+  db_prefix: "databases/nt/nt"
+  evalue: "1e-25"
+  max_target_seqs: 10
+
+blobtools:
+  taxdump: "databases/taxdump"

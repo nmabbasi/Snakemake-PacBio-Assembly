@@ -1,0 +1,44 @@
+name: Snakemake CI Validation
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  validate-workflows:
+    name: Lint & DAG Dry-Run Both Workflows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Snakemake
+        run: pip install snakemake
+
+      - name: Create synthetic test fixtures
+        run: |
+          mkdir -p /tmp/ci_pacbio/data /tmp/ci_pacbio/db
+          touch /tmp/ci_pacbio/data/sample1_hifi.fastq.gz
+          touch /tmp/ci_pacbio/data/reference.fasta
+          touch /tmp/ci_pacbio/data/trusted_contigs.fasta
+          touch /tmp/ci_pacbio/data/sample1_R1.fastq.gz /tmp/ci_pacbio/data/sample1_R2.fastq.gz /tmp/ci_pacbio/data/sample1_read_ids.txt
+          touch /tmp/ci_pacbio/data/sample2_R1.fastq.gz /tmp/ci_pacbio/data/sample2_R2.fastq.gz /tmp/ci_pacbio/data/sample2_read_ids.txt
+          printf "outdir: \"/tmp/ci_pacbio/res_asm\"\nsamples:\n  sample1: \"/tmp/ci_pacbio/data/sample1_hifi.fastq.gz\"\nhifiasm:\n  purge_level: 2\nbusco:\n  lineage: \"insecta_odb10\"\n  downloads_path: \"/tmp/ci_pacbio/db/busco_downloads\"\nblast:\n  db_prefix: \"/tmp/ci_pacbio/db/nt\"\n  evalue: \"1e-25\"\n  max_target_seqs: 10\nblobtools:\n  taxdump: \"/tmp/ci_pacbio/db/taxdump\"\n" > /tmp/ci_pacbio/assembly_config.yaml
+          printf "outdir: \"/tmp/ci_pacbio/res_reasm\"\nreference: \"/tmp/ci_pacbio/data/reference.fasta\"\ntrusted_contigs: \"/tmp/ci_pacbio/data/trusted_contigs.fasta\"\nsamples:\n  sample1:\n    r1: \"/tmp/ci_pacbio/data/sample1_R1.fastq.gz\"\n    r2: \"/tmp/ci_pacbio/data/sample1_R2.fastq.gz\"\n    read_list: \"/tmp/ci_pacbio/data/sample1_read_ids.txt\"\n  sample2:\n    r1: \"/tmp/ci_pacbio/data/sample2_R1.fastq.gz\"\n    r2: \"/tmp/ci_pacbio/data/sample2_R2.fastq.gz\"\n    read_list: \"/tmp/ci_pacbio/data/sample2_read_ids.txt\"\nspades:\n  memory_gb: 64\n" > /tmp/ci_pacbio/reassembly_config.yaml
+
+      - name: Lint and dry-run Pacbio-assembly-snakemake.smk
+        run: |
+          snakemake -s Pacbio-assembly-snakemake.smk --configfile /tmp/ci_pacbio/assembly_config.yaml --lint
+          snakemake -s Pacbio-assembly-snakemake.smk --configfile /tmp/ci_pacbio/assembly_config.yaml -n -p --cores 8
+
+      - name: Lint and dry-run reassembly_snakemake.smk
+        run: |
+          snakemake -s reassembly_snakemake.smk --configfile /tmp/ci_pacbio/reassembly_config.yaml --lint
+          snakemake -s reassembly_snakemake.smk --configfile /tmp/ci_pacbio/reassembly_config.yaml -n -p --cores 8
